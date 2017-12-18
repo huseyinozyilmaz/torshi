@@ -1,0 +1,23 @@
+@page {
+  size: A4;
+}
+@page:right {
+  @bottom-right {
+    border-top: .25pt solid #666;
+    content: counter(page);
+    font-size: 9pt;
+  }
+}
+@page:left {
+  @bottom-right {
+    border-top: .25pt solid #666;
+    content: counter(page);
+    font-size: 9pt;
+  }
+}
+h1, h2, h3, h4, h5 {
+  page-break-after: avoid;
+}
+nav {
+  display: none;
+}

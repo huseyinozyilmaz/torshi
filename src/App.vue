@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav id="nav">
-      <ul>
+      <ul class="nav">
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/overview">Overview</router-link></li>
         <li><router-link to="/features">Features</router-link></li>
@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-weight: 300;
@@ -34,7 +37,7 @@ body {
 #app {
   text-align: center;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 4fr 1fr;
   grid-template-areas:
     "header  header  header"
     "sidebar content rsidebar"
@@ -49,12 +52,12 @@ body {
   color: #C9A944;
   text-decoration: none;
 }
-ul {
+ul.nav {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-li {
+ul.nav li {
   display: inline-block;
   margin: 0 10px;
 }
@@ -67,6 +70,26 @@ a {
   grid-area: content;
 }
 .page-header {
-  
+
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-color: grey;
+}
+thead, tbody {
+  vertical-align: middle;
+}
+th:first-child, td:first-child {
+  padding-left: 0;
+}
+th {
+  font-weight: 500;
+}
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1;
 }
 </style>

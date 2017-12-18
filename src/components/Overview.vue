@@ -1,5 +1,7 @@
 <template>
-  <h1 class="page-header">{{ msg }}</h1>
+  <div>
+    <h1 class="page-header">{{ title }}</h1>
+  </div>
 </template>
 
 <script>
@@ -7,7 +9,7 @@ export default {
   name: 'Overview',
   data () {
     return {
-      msg: 'Overview'
+      title: 'Overview'
     }
   }
 }
