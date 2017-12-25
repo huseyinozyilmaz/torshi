@@ -1,22 +1,33 @@
 <template>
   <div>
-    <h1 class="page-header">{{ msg }}</h1>
+    <h1 class="page-header">{{ title }}</h1>
     <chart :options="pie"></chart>
+    <app-table
+      title="Tag List"
+      :columns="columns"
+      :rows="rows">
+    </app-table>
   </div>
 </template>
 
 <script>
 import {service} from '../services/FeatureService'
+import AppTable from './AppTable.vue'
 
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
 
 export default {
   name: 'Tags',
+  components: {
+    'app-table': AppTable
+  },
   data () {
-    let tags = service.getTags()
+    var tags = service.getTags()
     return {
-      msg: 'Tags',
+      title: 'Tags',
+      columns: ['id', 'tag', 'count', 'percentage'],
+      rows: tags,
       pie: {
         title: {
           text: 'All Tags',
@@ -29,7 +40,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: tags.keys
+          data: tags.map(a => a.tag)
         },
         series: [
           {
@@ -37,7 +48,7 @@ export default {
             type: 'pie',
             radius: '55%',
             center: ['50%', '60%'],
-            data: tags.data,
+            data: tags.map(a => ({name: a.tag, value: a.count})),
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

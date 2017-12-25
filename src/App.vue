@@ -84,12 +84,13 @@ thead, tbody {
 th:first-child, td:first-child {
   padding-left: 0;
 }
-th {
-  font-weight: 500;
-}
 th, td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #E1E1E1;
+}
+th {
+  font-weight: 500;
+  border-bottom: 2px solid #E1E1E1;
 }
 </style>

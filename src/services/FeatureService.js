@@ -27,14 +27,13 @@ class FeatureService {
         map.has(tag.name) ? map.set(tag.name, map.get(tag.name) + scenarioCount) : map.set(tag.name, scenarioCount)
       }
     }
+    let sum = [...map.values()].reduce((a, b) => a + b)
     let result = []
+    var id = 1
     for (var [key, value] of map) {
-      result.push({name: key, value: value})
+      result.push({id: id++, tag: key, count: value, percentage: (value / sum * 100).toFixed(2)})
     }
-    return {
-      keys: [...map.keys()],
-      data: result
-    }
+    return result
   }
 }
 
