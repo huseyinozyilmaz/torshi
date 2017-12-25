@@ -1,40 +1,43 @@
 <template>
-  <div class="page">
-    <h1>{{ title }}</h1>
-    <input type="text" v-model="search" @keyup.esc="resetSearch" placeholder="Search features...">
-    <feature-list :search="search"></feature-list>
+  <div>
+    <h1 class="page-header">{{ title }}</h1>
+    <app-table
+      title="Feature List"
+      :columns="columns"
+      :rows="rows">
+      <template slot="table-row" slot-scope="props">
+        <td>{{ props.row.no }}</td>
+        <td><router-link :to="{ name: 'Feature', params: { id: props.row.id }}">{{ props.row.featureName }}</router-link></td>
+        <td>{{ props.row.scenarioCount }}</td>
+        <td>{{ props.row.tagCount }}</td>
+        <td>{{ props.row.createdBy }}</td>
+        <td>{{ props.row.lastUpdated }}</td>
+      </template>
+    </app-table>
   </div>
 </template>
 
 <script>
-import FeatureList from './FeatureList.vue'
+import {service} from '../services/FeatureService'
+import AppTable from './AppTable.vue'
 
 export default {
-  name: 'Features',
   data () {
     return {
       title: 'Features',
-      search: ''
+      columns: [
+        { key: 'no', name: 'No' },
+        { key: 'featureName', name: 'Feature' },
+        { key: 'scenarioCount', name: 'Scenarios' },
+        { key: 'tagCount', name: 'Tags' },
+        { key: 'createdBy', name: 'Created By' },
+        { key: 'lastUpdated', name: 'Last Updated' }
+      ],
+      rows: service.getFeatures()
     }
   },
   components: {
-    'feature-list': FeatureList
-  },
-  methods: {
-    resetSearch: function () {
-      this.search = ''
-    }
+    'app-table': AppTable
   }
 }
 </script>
-
-<style scoped>
-  .page {
-    text-align: left;
-  }
-  input {
-    display: block;
-    width: 100%;
-    padding: 8px;
-  }
-</style>

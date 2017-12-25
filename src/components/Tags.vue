@@ -26,7 +26,12 @@ export default {
     var tags = service.getTags()
     return {
       title: 'Tags',
-      columns: ['id', 'tag', 'count', 'percentage'],
+      columns: [
+        { key: 'id', name: 'No' },
+        { key: 'tag', name: 'Tag Name' },
+        { key: 'count', name: 'Count' },
+        { key: 'percentage', name: 'Percentage' }
+      ],
       rows: tags,
       pie: {
         title: {

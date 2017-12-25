@@ -5,19 +5,21 @@
     <table>
       <thead>
         <tr>
-          <th v-for="key in columns"
-            @click="sortBy(key)"
-            :class="{ active: sortKey == key }">
-            {{ key | capitalise }}
-            <span class="icon" :class="{ arrow: sortKey == key, 'asc': sortOrders[key] > 0, 'dsc': sortOrders[key] <= 0}"></span>
+          <th v-for="column in columns"
+            @click="sortBy(column.key)"
+            :class="{ active: sortKey == column.key }">
+            <span>{{column.name}}</span><br>
+            <span class="icon" :class="{ arrow: sortKey == column.key, asc: sortOrders[column.key] > 0, dsc: sortOrders[column.key] <= 0}"></span>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="entry in filteredRows">
-          <td v-for="key in columns">
-            {{entry[key]}}
-          </td>
+        <tr v-for="row in filteredRows">
+          <slot name="table-row" :row="row">
+            <td v-for="column in columns">
+              {{row[column.key]}}
+            </td>
+          </slot>
         </tr>
       </tbody>
     </table>
@@ -34,8 +36,8 @@ export default {
   },
   data () {
     var sortOrders = {}
-    this.columns.forEach((key) => {
-      sortOrders[key] = 1
+    this.columns.forEach((column) => {
+      sortOrders[column.key] = 1
     })
     return {
       search: '',
@@ -63,7 +65,6 @@ export default {
           return (a === b ? 0 : a > b ? 1 : -1) * order
         })
       }
-      console.log(data.length)
       return data
     }
   },
@@ -115,10 +116,29 @@ export default {
   .table table {
     grid-area: table;
   }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: grey;
+  }
+  thead, tbody {
+    vertical-align: middle;
+  }
+  th:first-child, td:first-child {
+    padding-left: 0;
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #E1E1E1;
+  }
   th {
+    font-weight: 500;
     cursor: pointer;
     user-select: none;
     color: #333;
+    border-bottom: 2px solid #E1E1E1;
   }
   th:hover {
     border-bottom: 2px solid #7a7a7a;
@@ -132,7 +152,7 @@ export default {
   span.icon {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 5px;
+    margin-left: 1px;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
   }
@@ -141,7 +161,7 @@ export default {
     vertical-align: middle;
     width: 0;
     height: 0;
-    margin-left: 5px;
+    margin-left: 1px;
     opacity: 0.66;
   }
   .arrow.asc {

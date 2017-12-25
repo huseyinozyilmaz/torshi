@@ -4,12 +4,48 @@ class FeatureService {
     this.features = featuresdb
   }
 
+  getFeatures () {
+    var features = []
+    var no = 1
+    for (let feature of this.features) {
+      features.push({
+        id: feature.id,
+        no: no++,
+        featureName: feature.gherkin.document.feature.name,
+        scenarioCount: this.getScenarioCountByFeature(feature.gherkin.document.feature),
+        tagCount: this.getTagCountByFeature(feature.gherkin.document.feature),
+        createdBy: '',
+        lastUpdated: ''
+      })
+    }
+    return features
+  }
+
   getFeatureById (id) {
     for (let feature of this.features) {
       if (feature.id === id) {
         return feature
       }
     }
+  }
+
+  getTagCountByFeature (feature) {
+    let tags = new Set()
+    feature.tags.forEach((tag) => {
+      tags.add(tag.name)
+    })
+    feature.children.forEach((child) => {
+      if (child.tags) {
+        child.tags.forEach((tag) => {
+          tags.add(tag.name)
+        })
+      }
+    })
+    return tags.size
+  }
+
+  getScenarioCountByFeature (feature) {
+    return feature.children.length
   }
 
   getTags () {
